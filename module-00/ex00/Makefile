@@ -2,7 +2,7 @@
 
 NAME = megaphone
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -std=c++98
 
 CC = c++
 
@@ -14,20 +14,20 @@ OBJS_DIR = .objs/
 
 OBJ = $(SRCS:.cpp=.o)
 
-OBJS = $(addprefix$(OBJS_DIR), $(OBJ))
+OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
 
 DEPS = $(OBJS:.o=.d)
 
 ####
 
 $(NAME) 		:	$(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
 
 all				:	$(NAME)
 
 $(OBJS_DIR)%.o	:	%.cpp
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(FLAGS) -o $@ -c $<
 
 clean			:
 	rm -rf $(OBJS_DIR)
@@ -36,3 +36,5 @@ fclean			:	clean
 	rm -rf $(NAME)
 
 re				:	fclean all
+
+.PHONY			:	all clean fclean re
