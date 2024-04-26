@@ -6,7 +6,7 @@ FLAGS = -Wall -Wextra -Werror -std=c++98
 
 CC = c++
 
-SRCS = PhoneBook.cpp Contact.cpp
+SRCS = PhoneBook.cpp Contact.cpp main.cpp
 
 OBJS_DIR = .objs/
 
