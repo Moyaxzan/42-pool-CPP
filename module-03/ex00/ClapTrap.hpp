@@ -9,6 +9,11 @@ class ClapTrap {
 		ClapTrap &operator=(const ClapTrap &other);
 		~ClapTrap();
 
+		std::string		getName(void);
+		unsigned int	getHitPoints(void);
+		unsigned int	getEnergyPoints(void);
+		unsigned int	getAttackDamages(void);
+
 		void	attack(const std::string& target);
 		void	takeDamage(unsigned int amount);
 		void	beRepaired(unsigned int amount);
