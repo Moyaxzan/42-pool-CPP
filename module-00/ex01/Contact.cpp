@@ -1,6 +1,7 @@
 #include "include/Contact.hpp"
 #include <iostream>
 #include <string>
+#include <cctype>
 
 Contact::Contact(void) {
 	return ;
@@ -32,13 +33,22 @@ void	Contact::print_contact(void) {
 	return ;
 }
 
+static bool	isAllPrintable(const std::string& str) {
+    for (size_t i = 0; i < str.length(); ++i) {
+        if (!isprint(static_cast<unsigned char>(str[i]))) {
+            return (false);
+        }
+    }
+    return (true);
+}
+
 int	request_field(std::string prompt, std::string *field) {
 	do {
 		std::cout << std::endl << "enter " << prompt;
 		if (!std::getline(std::cin, *field)) {
 			return (1);
 		}
-	} while (field->length() < 1);
+	} while (field->length() < 1 || !isAllPrintable(*field));
 	return (0);
 }
 
