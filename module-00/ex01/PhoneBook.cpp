@@ -38,14 +38,8 @@ std::string	get_string(std::string str) {
 	if (str.length() > 9) {
 		res = str.substr(0, 9) + ".";
 	} else {
-		res = str;
+		res = std::string(10 - str.length(), ' ') + str;
 	}
-	int	len = res.length();
-	int padding = (10 - len) / 2;
-	res = std::string(padding, ' ') + res + std::string(padding, ' ');
-	if ((10 - len) % 2) {
-        res += " ";
-    }
 	return (res);
 }
 
@@ -57,13 +51,11 @@ int	PhoneBook::search(void) {
 		std::cout << "\tEMPTY TABLE\t" << std::endl << "    (register contacts)" << std::endl;
 		return (0);
 	}
-	//TODO : protect when table empty ?
-	//print search table
 	std::cout << "____________________________________________" << std::endl;
 	std::cout << "|  index  |first name| last name| nickname |" << std::endl;
 	std::cout << "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾" << std::endl;
 	while (i < this->nb_of_contacts) {
-		std::cout << "|    " << i << "    |";
+		std::cout << "|        " << i << "|";
 		std::cout << get_string(this->contacts[i].get_name()) << "|";
 		std::cout << get_string(this->contacts[i].get_last_name()) << "|";
 		std::cout << get_string(this->contacts[i].get_nickname()) << "|" << std::endl;

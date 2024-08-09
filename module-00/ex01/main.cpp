@@ -1,8 +1,14 @@
 #include "include/Contact.hpp"
 #include "include/PhoneBook.hpp"
+#include <csignal>
 #include <cstdio>
 #include <iostream>
 #include <string>
+
+void signalHandler( int signum ) {
+	std::cout << std::endl << "SIGINT recieved, exiting program." << std::endl;
+	_exit(signum);  
+}
 
 // TODO : !!!ignore all backspaces (entree)!!!
 int	main(void) {
@@ -10,6 +16,7 @@ int	main(void) {
 	std::string	input;
 	PhoneBook	Phonebook;
 
+	signal(SIGINT, signalHandler);
 	while (!exit) {
 		std::cout << "Enter a command : ";
 		if (!std::getline(std::cin, input) || input == "EXIT") {
