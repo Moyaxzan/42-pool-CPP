@@ -6,7 +6,7 @@
 #include <string>
 
 void signalHandler( int signum ) {
-	std::cout << std::endl << "SIGINT recieved, exiting program." << std::endl;
+	std::cout << std::endl << "SIGINT received, exiting program." << std::endl;
 	_exit(signum);  
 }
 
