@@ -2,8 +2,10 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <stdlib.h>
 
 PhoneBook::PhoneBook(void) {
+	this->nb_of_contacts = 0;
 	return ;
 }
 
@@ -13,7 +15,9 @@ PhoneBook::~PhoneBook(void) {
 
 int	PhoneBook::add(void) {
 	if (this->nb_of_contacts < 8) {
-		this->contacts[nb_of_contacts].fill_contact();
+		if (this->contacts[this->nb_of_contacts].fill_contact()) {
+			return (1);
+		}
 		this->nb_of_contacts++;
 	} else {
 		int	i = 0;
@@ -21,7 +25,9 @@ int	PhoneBook::add(void) {
 			this->contacts[i] = this->contacts[i + 1];
 			i++;
 		}
-		this->contacts[7].fill_contact();
+		if (this->contacts[7].fill_contact()) {
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -45,8 +51,12 @@ std::string	get_string(std::string str) {
 
 int	PhoneBook::search(void) {
 	int			i = 0;
-	int			index;
+	std::string	index;
 
+	if (!this->nb_of_contacts) {
+		std::cout << "\tEMPTY TABLE\t" << std::endl << "    (register contacts)" << std::endl;
+		return (0);
+	}
 	//TODO : protect when table empty ?
 	//print search table
 	std::cout << "____________________________________________" << std::endl;
@@ -59,11 +69,14 @@ int	PhoneBook::search(void) {
 		std::cout << get_string(this->contacts[i].get_nickname()) << "|" << std::endl;
 		i++;
 	}
-
-	//TODO : protect ->
-	std::cout << "enter a contact index : ";
-	std::cin >> index;
-
-	this->contacts[index].print_contact();
+	std::cout << "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾" << std::endl;
+	do {
+		std::cout << "enter a contact index : ";
+		if (!std::getline(std::cin, index)) {
+			return (1);
+		}
+	} while (index.find_first_not_of("0123456789") != std::string::npos \
+				|| this->nb_of_contacts <= std::atoi(index.c_str()));
+	this->contacts[std::atoi(index.c_str())].print_contact();
 	return (0);
 }
