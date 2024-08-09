@@ -35,7 +35,7 @@ int	PhoneBook::add(void) {
 std::string	get_string(std::string str) {
 	std::string	res;
 
-	if (str.length() > 9) {
+	if (str.length() > 10) {
 		res = str.substr(0, 9) + ".";
 	} else {
 		res = std::string(10 - str.length(), ' ') + str;
@@ -68,7 +68,8 @@ int	PhoneBook::search(void) {
 			return (1);
 		}
 	} while (index.find_first_not_of("0123456789") != std::string::npos \
-				|| this->nb_of_contacts <= std::atoi(index.c_str()));
+				|| this->nb_of_contacts <= std::atoi(index.c_str()) \
+				|| index.length() < 1);
 	this->contacts[std::atoi(index.c_str())].print_contact();
 	return (0);
 }

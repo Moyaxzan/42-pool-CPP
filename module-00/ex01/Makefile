@@ -2,7 +2,7 @@
 
 NAME = My_Awesome_PhoneBook 
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g -fsanitize=address -MMD
 
 CC = c++
 
