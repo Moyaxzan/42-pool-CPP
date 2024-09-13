@@ -39,6 +39,7 @@ int main( void ) {
 		std::cout << "b-- = " << b-- << std::endl;
 		std::cout << "b = " << b << std::endl;
 
+		std::cout << "a = " << a << " b = " << b << " c = " << c << std::endl;
 		std::cout << "COMPARISONS" << std::endl;
 		std::cout << "a > b " << (a > b) << std::endl;
 		std::cout << "a == c  " << (a == c) << std::endl;
@@ -48,6 +49,7 @@ int main( void ) {
 		std::cout << "a <= b " << (a <= b) << std::endl;
 		std::cout << "b == b " << (b == b) << std::endl;
 
+		std::cout << "a = " << a << " b = " << b << " c = " << c << std::endl;
 		std::cout << "OPERATIONS" << std::endl;
 		std::cout << "a + b " << (a + b) << std::endl;
 		std::cout << "b + c " << (b + c) << std::endl;
