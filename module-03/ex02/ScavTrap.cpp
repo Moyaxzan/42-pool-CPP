@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+//CONSTRUCTORS ----------------------------------------------------//
+
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
 	this->hitPoints = 100;
 	this->energyPoints = 50;
@@ -17,6 +19,12 @@ ScavTrap::ScavTrap(const ScavTrap &other) : ClapTrap(other.name) {
 	this->name = other.name;
 }
 
+ScavTrap::~ScavTrap() {
+	std::cout << "I hope " << name << " has been usefull enough, bye..." << std::endl;
+}
+
+//OPERATORS ----------------------------------------------------//
+
 ScavTrap	&ScavTrap::operator=(const ScavTrap &other) {
 	this->attackDamage = other.attackDamage;
 	this->energyPoints = other.energyPoints;
@@ -25,9 +33,7 @@ ScavTrap	&ScavTrap::operator=(const ScavTrap &other) {
 	return (*this);
 }
 
-ScavTrap::~ScavTrap() {
-	std::cout << "I hope " << name << " has been usefull enough, bye..." << std::endl;
-}
+//MEMBER FUNCTIONS ----------------------------------------------------//
 
 void	ScavTrap::attack(std::string target) {
 	if (!this->hitPoints) {

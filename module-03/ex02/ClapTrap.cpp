@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 
+//CONSTRUCTORS ----------------------------------------------------//
+
 ClapTrap::ClapTrap(std::string name) {
 	std::cout << "ClapTrap constructor called" << std::endl;
 	this->name = name;
@@ -22,6 +24,8 @@ ClapTrap::ClapTrap(const ClapTrap &other) {
 	this->attackDamage = other.attackDamage;
 }
 
+//OPERATORS ----------------------------------------------------//
+
 ClapTrap	&ClapTrap::operator=(const ClapTrap &other) {
 	std::cout << "ClapTrap assignment operator called" << std::endl;
 	this->name = other.name;
@@ -30,6 +34,8 @@ ClapTrap	&ClapTrap::operator=(const ClapTrap &other) {
 	this->attackDamage = other.attackDamage;
 	return (*this);
 }
+
+//GETTERS SETTERS ----------------------------------------------------//
 
 std::string		ClapTrap::getName(void) {
 	return (this->name);
@@ -46,6 +52,8 @@ unsigned int	ClapTrap::getEnergyPoints(void) {
 unsigned int	ClapTrap::getAttackDamages(void) {
 	return (this->attackDamage);
 }
+
+//MEMBER FUNCTIONS ----------------------------------------------------//
 
 void	ClapTrap::attack(const std::string& target) {
 	if (!this->hitPoints) {
