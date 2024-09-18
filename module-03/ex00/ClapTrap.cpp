@@ -25,6 +25,7 @@ ClapTrap::ClapTrap(const ClapTrap &other) {
 }
 
 //OPERATORS ----------------------------------------------------//
+
 ClapTrap	&ClapTrap::operator=(const ClapTrap &other) {
 	std::cout << "ClapTrap assignment operator called" << std::endl;
 	this->name = other.name;
@@ -86,11 +87,7 @@ void	ClapTrap::beRepaired(unsigned int amount) {
 		std::cout << "ClapTrap " << this->name << " has no more energy points" << std::endl;
 		return ;
 	}
-	if (amount + this->hitPoints >= 10) {
-		this->hitPoints = 10;
-	} else {
-		this->hitPoints += amount;
-	}
+	this->hitPoints += amount;
 	this->energyPoints -= 1;
 	std::cout << "ClapTrap " << this->name << " has been repared by ";
 	std::cout << amount << " hit points!" << std::endl;
