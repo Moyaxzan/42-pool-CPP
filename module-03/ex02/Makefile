@@ -1,12 +1,12 @@
 ####
 
-NAME = ex01
+NAME = ex02
 
 FLAGS = -Wall -Wextra -Werror -std=c++98 -MMD
 
 CC = c++
 
-SRCS = main.cpp ClapTrap.cpp ScavTrap.cpp
+SRCS = main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp
 
 OBJS_DIR = .objs/
 
