@@ -5,7 +5,7 @@
 
 //CONSTRUCTORS ----------------------------------------------------//
 
-FragTrap::FragTrap(std::string name) : ClapTrap(name) {
+FragTrap::FragTrap(std::string ft_name) : ClapTrap(ft_name) {
 	this->hitPoints = 100;
 	this->energyPoints = 100;
 	this->attackDamage = 30;

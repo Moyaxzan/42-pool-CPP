@@ -4,9 +4,9 @@
 
 //CONSTRUCTORS ----------------------------------------------------//
 
-ClapTrap::ClapTrap(std::string name) {
+ClapTrap::ClapTrap(std::string ct_name) {
 	std::cout << "ClapTrap constructor: " << name << " created" << std::endl;
-	this->name = name;
+	this->name = ct_name;
 	this->hitPoints = 10;
 	this->energyPoints = 10;
 	this->attackDamage = 0;

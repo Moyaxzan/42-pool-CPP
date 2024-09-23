@@ -5,11 +5,11 @@
 
 //CONSTRUCTORS ----------------------------------------------------//
 
-ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
+ScavTrap::ScavTrap(std::string st_name) : ClapTrap(st_name) {
 	this->hitPoints = 100;
 	this->energyPoints = 50;
 	this->attackDamage = 20;
-	std::cout << "Hi, I'm " << name << " ScavTrap, reporting for duty!" << std::endl;
+	std::cout << "Hi, I'm " << st_name << " ScavTrap, reporting for duty!" << std::endl;
 }
 
 ScavTrap::ScavTrap(const ScavTrap &other) : ClapTrap(other.name) { 

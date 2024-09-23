@@ -2,7 +2,7 @@
 
 NAME = ex03
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 -MMD
+FLAGS = -Wall -Wextra -Werror -std=c++98 -MMD -Wshadow -Wno-shadow
 
 CC = c++
 

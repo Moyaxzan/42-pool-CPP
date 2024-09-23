@@ -7,8 +7,8 @@
 
 //CONSTRUCTORS ----------------------------------------------------//
 
-DiamondTrap::DiamondTrap(std::string name) : ClapTrap(name + "_clap_name"), ScavTrap(name), FragTrap(name) {
-	this->name = name;
+DiamondTrap::DiamondTrap(std::string dt_name) : ClapTrap(dt_name + "_clap_name"), ScavTrap(dt_name), FragTrap(dt_name) {
+	this->name = dt_name;
 	this->hitPoints = FRAGTRAP_HP;
 	this->energyPoints = SCAVTRAP_EP;
 	this->attackDamage = FRAGTRAP_AD;
