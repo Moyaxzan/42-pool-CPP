@@ -5,7 +5,7 @@
 //CONSTRUCTORS ----------------------------------------------------//
 
 ClapTrap::ClapTrap(std::string name) {
-	std::cout << "ClapTrap constructor called" << std::endl;
+	std::cout << "ClapTrap constructor: " << name << " created" << std::endl;
 	this->name = name;
 	this->hitPoints = 10;
 	this->energyPoints = 10;
@@ -13,11 +13,11 @@ ClapTrap::ClapTrap(std::string name) {
 }
 
 ClapTrap::~ClapTrap() {
-	std::cout << "ClapTrap destructor called" << std::endl;
+	std::cout << "ClapTrap destructor: " << name << " destroyed" << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &other) {
-	std::cout << "ClapTrap constructor called" << std::endl;
+	std::cout << "ClapTrap constructor: " << name << " created" << std::endl;
 	this->name = other.name;
 	this->hitPoints = other.hitPoints;
 	this->energyPoints = other.energyPoints;

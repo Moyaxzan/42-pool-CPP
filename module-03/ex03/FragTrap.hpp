@@ -3,7 +3,11 @@
 # include <string>
 # include "ClapTrap.hpp"
 
-class FragTrap : public ClapTrap {
+# define FRAGTRAP_HP 100
+# define FRAGTRAP_EP 100
+# define FRAGTRAP_AD 30
+
+class FragTrap : virtual public ClapTrap {
 	public:
 		FragTrap(std::string name);
 		FragTrap(const FragTrap &other);
