@@ -13,7 +13,7 @@ ClapTrap::ClapTrap(std::string name) {
 }
 
 ClapTrap::~ClapTrap() {
-	std::cout << "ClapTrap destructor called" << std::endl;
+	std::cout << "ClapTrap " << name << " destroyed"<< std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &other) {
