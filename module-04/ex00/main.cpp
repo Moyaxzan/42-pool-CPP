@@ -16,6 +16,9 @@ int main()
 	i->makeSound(); //will output the cat sound!
 	std::cout << meta->getType() << " " << std::endl;
 	meta->makeSound();
+	delete meta;
+	delete j;
+	delete i;
 
 	const WrongAnimal*	wcat = new WrongCat();
 	const WrongAnimal*	wani = new WrongAnimal();
@@ -23,6 +26,8 @@ int main()
 	wcat->makeSound(); //will output the Wrong cat sound!
 	std::cout << wani->getType() << " " << std::endl;
 	wani->makeSound();
+	delete wcat;
+	delete wani;
 
 	return (0);
 }
