@@ -43,6 +43,6 @@ void	Animal::makeSound(void) const {
 	} else if (this->_type == "Cat") {
 		std::cout << "meeeeeewwwww *says the cat*" << std::endl;
 	} else {
-		std::cout << "asdfhaskjdghlaksjdhflasd *says the creature*" << std::endl;
+		std::cout << "..." << std::endl;
 	}
 }

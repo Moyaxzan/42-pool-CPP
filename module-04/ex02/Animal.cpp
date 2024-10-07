@@ -4,18 +4,22 @@
 //CONSTRUCTORS ----------------------------------------------------//
 
 Animal::Animal(void) {
+	std::cout << "Animal base constructor" << std::endl;
 	this->_type = "None";
 }
 
 Animal::Animal(std::string type) {
+	std::cout << "Animal string base constructor" << std::endl;
 	this->_type = type;
 }
 
 Animal::Animal(const Animal &other) {
+	std::cout << "Animal assign constructor called" << std::endl;
 	this->_type = other._type;
 }
 
 Animal::~Animal() {
+	std::cout << "Animal destructor" << std::endl;
 }
 
 //OPERATORS ----------------------------------------------------//
@@ -32,13 +36,3 @@ std::string	Animal::getType(void) const {
 }
 
 //MEMBER FUNCTIONS ----------------------------------------------------//
-
-void	Animal::makeSound(void) const {
-	if (this->_type == "Dog") {
-		std::cout << "wouf wouf *says the dog*" << std::endl;
-	} else if (this->_type == "Cat") {
-		std::cout << "meeeeeewwwww *says the cat*" << std::endl;
-	} else {
-		std::cout << "..." << std::endl;
-	}
-}
