@@ -12,7 +12,9 @@ class Animal {
 
 		std::string	getType(void) const;
 		void		makeSound(void) const;
-
+		
+		virtual std::string	get_idea(int index) const;
+		virtual void		set_idea(int index, std::string idea);
 	protected:
 		std::string	_type;
 };

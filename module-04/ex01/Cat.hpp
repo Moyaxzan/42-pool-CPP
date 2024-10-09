@@ -11,6 +11,8 @@ class Cat : public Animal {
 		Cat	&operator=(const Cat &other);
 		~Cat();
 
+		std::string	get_idea(int index) const;
+		void		set_idea(int index, std::string idea);
 	private:
 		Brain	*_brain;
 };

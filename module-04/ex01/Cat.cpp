@@ -27,10 +27,22 @@ Cat	&Cat::operator=(const Cat &other) {
 	if (&other == this) {
 		return (*this);
 	}
-	delete this->_brain;
+	if (this->_brain) {
+		delete this->_brain;
+	}
 	this->_brain = new Brain(*(other._brain));
 	this->_type = other._type;
 	return (*this);
+}
+
+//GETTERS SETTERS -----------------------------------------------------//
+
+std::string	Cat::get_idea(int index) const {
+	return (this->_brain->get_idea(index));
+}
+
+void	Cat::set_idea(int index, std::string idea) {
+	return (this->_brain->set_idea(index, idea));
 }
 
 //MEMBER FUNCTIONS ----------------------------------------------------//

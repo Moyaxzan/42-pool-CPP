@@ -46,3 +46,15 @@ void	Animal::makeSound(void) const {
 		std::cout << "..." << std::endl;
 	}
 }
+
+std::string	Animal::get_idea(int index) const {
+	(void) index;
+	std::cout << "This animal has no brain..." << std::endl;
+	return ("NULL");
+}
+
+void	Animal::set_idea(int index, std::string idea) {
+	(void) index;
+	(void) idea;
+	std::cout << "This animal has no brain..." << std::endl;
+}
