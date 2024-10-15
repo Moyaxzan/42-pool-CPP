@@ -9,9 +9,10 @@ class ICharacter {
 		virtual	~ICharacter(void) {};
 	
 		virtual std::string const &	getName() const = 0;
-		virtual void	equip(AMateria *m);
+		virtual void	equip(AMateria *m) = 0;
 		virtual void	unequip(int index) = 0;
 		virtual void	use(int index, ICharacter& target) = 0;
+		virtual AMateria*	getMateria(int index) = 0;
 };
 
 #endif
