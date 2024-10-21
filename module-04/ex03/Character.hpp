@@ -12,6 +12,7 @@ class Character : public ICharacter {
 		~Character(void);
 
 		std::string const &	getName(void) const;
+		void	deleteInventory(void);
 		void	equip(AMateria *m);
 		void	unequip(int index);
 		void	use(int index, ICharacter& target);

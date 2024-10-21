@@ -1,12 +1,12 @@
 ####
 
-NAME = ex02
+NAME = ex03
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD -g
 
 CXX = c++
 
-SRCS = main.cpp
+SRCS = main.cpp AMateria.cpp Character.cpp Cure.cpp Ice.cpp MateriaSource.cpp
 
 OBJS_DIR = .objs/
 
