@@ -47,6 +47,6 @@ class AForm {
 		int _minExecGrade;
 };
 
-std::ostream& operator<<(std::ostream& os, Form const & form);
+std::ostream& operator<<(std::ostream& os, AForm const & form);
 
 #endif
