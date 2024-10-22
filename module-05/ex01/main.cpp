@@ -82,7 +82,9 @@ int main(void) {
 	stagiaire->signForm(*form);
 
 	//able to sign
+	std::cout << std::endl << *form << std::endl;
 	capitalistman->signForm(*form);
+	std::cout << *form << std::endl;
 
 	delete stagiaire;
 	delete capitalistman;
