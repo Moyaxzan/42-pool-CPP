@@ -14,7 +14,7 @@ class RobotomyRequestForm: public AForm {
 	private:
 		virtual void _doExecute(void) const;
 
-		const std::string _target;
+		std::string _target;
 
 };
 
