@@ -13,20 +13,32 @@
 // }
 
 int main(void) {
-	Bureaucrat bigboss("boss", 1);
+	Bureaucrat bigboss("Boss", 1);
+	Bureaucrat intern("Intern", 150);
 
+	std::cout << std::endl << "---------- SHRUBBERY CREATION FORM -----------------" << std::endl;
 	ShrubberyCreationForm shrub("grandma's_garden");
 	bigboss.signForm(shrub);
 	bigboss.executeForm(shrub);
 
+	std::cout << std::endl << "---------- ROBOTOMY REQUEST FORM -------------------" << std::endl;
 	RobotomyRequestForm robotomy("neighbour");
 	bigboss.signForm(robotomy);
 	for (int i = 0; i < 10; i++) {
 		bigboss.executeForm(robotomy);
 	}
 
+	std::cout << std::endl << "---------- PRESIDENTIAL PARDON FORM ----------------" << std::endl;
 	PresidentialPardonForm pardon("Another President");
 	bigboss.signForm(pardon);
 	bigboss.executeForm(pardon);
+
+	std::cout << std::endl << "---------- BAD INPUTS ------------------------------" << std::endl;
+	try {
+		intern.executeForm(pardon);
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+	}
+
 	return (0);
 }
