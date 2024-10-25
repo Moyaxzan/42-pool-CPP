@@ -38,6 +38,12 @@ class AForm {
 				virtual const char* what(void) const throw() { return ("Form was already signed."); };
 		};
 
+		class FormNotSigned : public std::exception {
+			public :
+				virtual const char* what(void) const throw() { return ("Form needs to be signed to be executed."); };
+		};
+
+
 	private:
 		virtual void _doExecute(void) const = 0;
 
