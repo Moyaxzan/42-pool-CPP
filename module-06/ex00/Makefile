@@ -6,7 +6,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD -g
 
 CXX = c++
 
-SRCS = main.cpp ScalarConverter.cpp
+SRCS = main.cpp ScalarConverter.cpp convertUtils.cpp
 
 OBJS_DIR = .objs/
 

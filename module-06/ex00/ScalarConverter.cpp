@@ -14,8 +14,17 @@ ScalarConverter& ScalarConverter::operator=(ScalarConverter& other) {
 ScalarConverter::~ScalarConverter(void) {}
 
 void ScalarConverter::convert(std::string str) {
-	convertChar(str);
-	convertInt(str);
-	convertFloat(str);
-	convertDouble(str);
+	int type = 0;
+	
+	if ((type = isInt(str))) {
+		return (convertFromInt(str));
+	} else if ((type = isChar(str))) {
+		return (convertFromChar(str));
+	} else if ((type = isFltorDbl(str))) {
+		if (type == ISDOUBLE) {
+			return (convertFromDouble(str));
+		} else {
+			return (convertFromFloat(str));
+		}
+	}
 }
