@@ -1,5 +1,6 @@
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
+#include <iostream>
 
 // --------- CANONICAL ORTHODOX FUNCTIONS -----------------------------
 
@@ -60,7 +61,9 @@ void AForm::beSigned(const Bureaucrat& bureaucrat) {
 }
 
 void	AForm::execute(const Bureaucrat& executor) const {
-	if (executor.getGrade() > this->_minExecGrade) {
+	if (!this->_isSigned) {
+		throw(AForm::FormNotSigned());
+	} else if (executor.getGrade() > this->_minExecGrade) {
 		throw (AForm::GradeTooLowException());
 	} else {
 		this->_doExecute();

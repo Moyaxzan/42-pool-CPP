@@ -37,8 +37,14 @@ int main(void) {
 	try {
 		intern.executeForm(pardon);
 	} catch (std::exception &e) {
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what() << std::endl << std::endl;
 	}
 
+	RobotomyRequestForm roboto("unsigned robotomy");
+	try {
+		bigboss.executeForm(roboto);
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+	}
 	return (0);
 }

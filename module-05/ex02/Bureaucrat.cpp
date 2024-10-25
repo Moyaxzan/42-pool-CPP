@@ -62,9 +62,6 @@ void Bureaucrat::signForm(AForm &form) const {
 }
 
 void Bureaucrat::executeForm(AForm &form) const {
-	if (!form.getIsSigned()) {
-		return ;
-	}
 	try {
 		form.execute(*this);
 	} catch (std::exception &e) {
