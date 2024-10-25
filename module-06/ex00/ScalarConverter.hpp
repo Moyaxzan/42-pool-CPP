@@ -20,6 +20,7 @@ class ScalarConverter {
 int isChar(std::string str);
 int isFltorDbl(std::string str);
 int isInt(std::string str);
+int convertSpecial(std::string str);
 
 void convertFromChar(std::string str);
 void convertFromInt(std::string str);

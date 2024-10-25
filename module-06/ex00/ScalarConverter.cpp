@@ -15,8 +15,10 @@ ScalarConverter::~ScalarConverter(void) {}
 
 void ScalarConverter::convert(std::string str) {
 	int type = 0;
-	
-	if ((type = isInt(str))) {
+
+	if (convertSpecial(str)) {
+		return ;
+	} else if ((type = isInt(str))) {
 		return (convertFromInt(str));
 	} else if ((type = isChar(str))) {
 		return (convertFromChar(str));

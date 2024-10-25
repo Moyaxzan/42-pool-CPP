@@ -48,6 +48,28 @@ int isInt(std::string str) {
 	return (ISINT);
 }
 
+int convertSpecial(std::string str) {
+	if (str == "nan" || str == "nanf") {
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
+		std::cout << "float: nanf" << std::endl;
+		std::cout << "double: nan" << std::endl;
+		return (1);
+	} else if (str == "-inf" || str == "-inff") {
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
+		std::cout << "float: -inff" << std::endl;
+		std::cout << "double: -inf" << std::endl;
+		return (1);
+	} else if (str == "+inf" || str == "+inff") {
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
+		std::cout << "float: +inff" << std::endl;
+		std::cout << "double: +inf" << std::endl;
+		return (1);
+	}
+	return (0);
+}
 
 void convertFromChar(std::string str) {
 	std::cout << "char: " << "'" << str[0] << "'" << std::endl;
