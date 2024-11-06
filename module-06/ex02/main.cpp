@@ -35,6 +35,26 @@ void identify(Base* p){
 	}
 }
 
+void identify(Base& p) {
+	try {
+		(void) dynamic_cast<A&>(p);
+		std::cout << "A" << std::endl;
+	} catch(const std::exception& e) {
+		try {
+			(void) dynamic_cast<B&>(p);
+			std::cout << "B" << std::endl;
+		} catch (const std::exception& e2){
+			try {
+				(void) dynamic_cast<C&>(p);
+				std::cout << "C" << std::endl;
+			} catch (const std::exception& e3){
+				std::cout << "unknown type" << std::endl;
+			}
+		}
+	}
+	
+}
+
 //It prints the actual type of the object pointed to by p: "A", "B" or "C".
 //Using a pointer inside this function is forbidden.
 // void identify(Base& p){
