@@ -1,5 +1,4 @@
 #include "Serializer.hpp"
-#include <sys/_types/_uintptr_t.h>
 
 Serializer::Serializer(void) {}
 
