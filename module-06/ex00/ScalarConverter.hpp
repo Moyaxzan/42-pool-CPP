@@ -9,12 +9,13 @@
 
 class ScalarConverter {
 	public:
+		static void convert(std::string);
+
+	private:
 		ScalarConverter(void);
 		ScalarConverter(ScalarConverter& other);
 		ScalarConverter& operator=(ScalarConverter& other);
 		~ScalarConverter();
-
-		static void convert(std::string);
 };
 
 int isChar(std::string str);
