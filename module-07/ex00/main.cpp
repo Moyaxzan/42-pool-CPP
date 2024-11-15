@@ -1,31 +1,6 @@
 #include "whatever.hpp"
 #include <iostream>
 
-// a = 3, b = 2
-// a = 5, b = 2
-// a = 5, b = 3
-// a = 2, b = 3
-template <typename T> void swap(T& p1, T& p2) {
-	T tmp = p1;
-	p1 = p2;
-	p2 = tmp;
-	return ;
-}
-
-template <typename T> T min(T &a, T &b) {
-	if (a < b) {
-		return (a);
-	}
-	return (b);
-}
-
-template <typename T> T max(T &a, T &b) {
-	if (a > b) {
-		return (a);
-	}
-	return (b);
-}
-
 int main(void) {
 	char a = 'a', b = 'b';
 	int c = 123, d = 987;
