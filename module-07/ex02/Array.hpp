@@ -24,6 +24,7 @@ class Array {
 		Array(const Array& other) {
 			if (&other != this) {
 				if (other._array) {
+					this->_array = new T[other._len];
 					this->_len = other._len;
 					for (unsigned int i = 0; i < this->_len; i++) {
 						this->_array[i] = other._array[i];
