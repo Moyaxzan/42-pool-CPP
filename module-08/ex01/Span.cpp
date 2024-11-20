@@ -1,13 +1,18 @@
 #include "Span.hpp"
 #include <algorithm>
+#include <iostream>
+#include <vector>
 
 Span::Span(void) {
 	this->_size = 0;
+	this->_vect = std::vector<int>(0);
 }
 
 Span::Span(unsigned int N) : _size(N), _vect(N) {}
 
 Span::Span(const Span& other) : _size(other._size), _vect(other._vect){}
+
+Span::~Span(void) {}
 
 Span& Span::operator=(const Span& other) {
 	if (this != &other) {
@@ -17,8 +22,15 @@ Span& Span::operator=(const Span& other) {
 	return (*this);
 }
 
-Span::~Span(void) {}
-
+const std::ostream& operator<<(std::ostream& os, const Span& span) {
+	if (os) {
+		std::vector<int> v(span.getVect());
+		for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
+			std::cout << *it << "   ";
+		}
+	}
+	return (os);
+}
 
 unsigned int Span::getSize(void) const { return (this->_size); }
 
@@ -26,7 +38,7 @@ const std::vector<int> & Span::getVect(void) const { return (this->_vect); }
 
 void Span::addNumber(int number) {
 	if (this->_vect.size() > this->_size) {
-		throw SpanOverflowException();
+		return (throw SpanOverflowException());
 	}
 	this->_vect.push_back(number);
 }
@@ -54,5 +66,3 @@ int Span::longestSpan(void) const {
 	}
 	return (std::max_element(this->_vect.begin(), this->_vect.end()) - std::min_element(this->_vect.begin(), this->_vect.end()));
 }
-
-//TODO: implement << operator overload to print span
