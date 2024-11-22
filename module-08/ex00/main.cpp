@@ -11,18 +11,16 @@ int main(void) {
 		for (int i = 0; i < 10; i++) {
 			vect.push_back(i);
 		}
-		try {
-			easyfind(vect, 9);
-			std::cout << "9 found in vect" << std::endl;
-		} catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
-		}
-		try {
-			easyfind(vect, 12);
-			std::cout << "12 found in vect" << std::endl;
-		} catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
-		}
+			if (easyfind(vect, 9)) {
+				std::cout << "9 found in vect" << std::endl;
+			} else {
+				std::cout << "9 not fount in vect" << std::endl;
+			}
+			if (easyfind(vect, 12)) {
+				std::cout << "12 found in vect" << std::endl;
+			} else {
+				std::cout << "12 not found in vect" << std::endl;		
+			}
 	}
 
 	// lists
@@ -31,17 +29,15 @@ int main(void) {
 		for (int i = 0; i < 10; i++) {
 			list.push_back(i * 2);
 		}
-		try {
-			easyfind(list, 12);
+		if (easyfind(list, 12)) {
 			std::cout << "12 found in list" << std::endl;
-		} catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
+		} else {
+			std::cout << "12 not found in list" << std::endl;
 		}
-		try {
-			easyfind(list, 9);
+		if (easyfind(list, 9)) {
 			std::cout << "9 found in list" << std::endl;
-		} catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
+		} else {
+			std::cout << "9 not found in list" << std::endl;
 		}
 	}
 	return (0);
