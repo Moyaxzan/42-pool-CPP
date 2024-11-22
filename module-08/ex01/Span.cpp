@@ -1,6 +1,7 @@
 #include "Span.hpp"
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <vector>
 
 Span::Span(void) {
@@ -8,7 +9,7 @@ Span::Span(void) {
 	this->_vect = std::vector<int>(0);
 }
 
-Span::Span(unsigned int N) : _size(N), _vect(N) {}
+Span::Span(unsigned int N) : _size(N){}
 
 Span::Span(const Span& other) : _size(other._size), _vect(other._vect){}
 
@@ -22,11 +23,11 @@ Span& Span::operator=(const Span& other) {
 	return (*this);
 }
 
-const std::ostream& operator<<(std::ostream& os, const Span& span) {
+std::ostream& operator<<(std::ostream& os, const Span& span) {
 	if (os) {
 		std::vector<int> v(span.getVect());
 		for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
-			std::cout << *it << "   ";
+			os << *it << "   ";
 		}
 	}
 	return (os);
@@ -43,7 +44,12 @@ void Span::addNumber(int number) {
 	this->_vect.push_back(number);
 }
 
-//TODO: implement addLotsOfNumber
+void Span::fill(std::vector<int>::iterator begin, std::vector<int>::iterator end) {
+	if (std::distance(begin, end) > this->_size) {
+		throw SpanOverflowException();
+	}
+	this->_vect.insert(this->_vect.end(), begin, end);
+}
 
 int Span::shortestSpan(void) const {
 	if (this->_vect.size() < 3) {
@@ -64,5 +70,13 @@ int Span::longestSpan(void) const {
 	if (this->_vect.size() < 3) {
 		throw NotEnoughNumbersException();
 	}
-	return (std::max_element(this->_vect.begin(), this->_vect.end()) - std::min_element(this->_vect.begin(), this->_vect.end()));
+	return (*std::max_element(this->_vect.begin(), this->_vect.end()) - *std::min_element(this->_vect.begin(), this->_vect.end()));
+}
+
+const char* Span::SpanOverflowException::what() const throw() {
+	return ("Error: span is already full");
+}
+
+const char* Span::NotEnoughNumbersException::what() const throw() {
+	return ("Error: not enough numbers to get span");
 }

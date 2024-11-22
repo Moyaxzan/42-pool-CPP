@@ -19,13 +19,14 @@ class Span {
 		void addNumber(int number);
 		int shortestSpan(void) const;
 		int longestSpan(void) const;
+		void fill(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 
 		class SpanOverflowException : public std::exception {
-			const char* what() const throw() { return ("Error: span is already full"); }
+			const char* what() const throw();
 		};
 
 		class NotEnoughNumbersException : public std::exception {
-			const char* what() const throw() { return ("Error: not enough numbers to get span"); }
+			const char* what() const throw();
 		};
 
 	private:
@@ -33,6 +34,6 @@ class Span {
 		std::vector<int> _vect;
 };
 
-const std::ostream& operator<<(const std::ostream& os, const Span& span);
+std::ostream& operator<<(std::ostream& os, const Span& span);
 
 #endif
