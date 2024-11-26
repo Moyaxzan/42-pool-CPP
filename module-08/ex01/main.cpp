@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-int main()
+int main(void)
 {
 	{
 		std::cout << "--------Suject--------" << std::endl;
