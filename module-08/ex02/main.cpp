@@ -42,7 +42,7 @@ int main (void) {
 		std::list<int>::iterator ite = ilist.end();
 		++it;
 		--it;
-		std::cout << "stack :";
+		std::cout << "list :";
 		while (it != ite) {
 			std::cout << "\t\t" <<*it << std::endl;
 			++it;

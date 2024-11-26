@@ -6,7 +6,10 @@
 template <typename T> class MutantStack : public std::stack<T> {
 	public:
 		MutantStack(void) {};
-		MutantStack(MutantStack<T>& other) {};
+
+		MutantStack(MutantStack<T>& other) {
+			this->c = other.c;
+		};
 
 		MutantStack<T>& operator=(MutantStack<T>& other) {
 			if (*this != other) {
