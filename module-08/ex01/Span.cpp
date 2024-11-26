@@ -38,7 +38,7 @@ unsigned int Span::getSize(void) const { return (this->_size); }
 const std::vector<int> & Span::getVect(void) const { return (this->_vect); }
 
 void Span::addNumber(int number) {
-	if (this->_vect.size() > this->_size) {
+	if (this->_vect.size() >= this->_size) {
 		return (throw SpanOverflowException());
 	}
 	this->_vect.push_back(number);

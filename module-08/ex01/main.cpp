@@ -19,7 +19,6 @@ int main(void)
 	{
 		std::cout << std::endl <<"--------Errors--------" << std::endl;
 		Span sp = Span(1);
-		sp.addNumber(1);
 		try {
 			sp.addNumber(1);
 		} catch (const std::exception &e) {
