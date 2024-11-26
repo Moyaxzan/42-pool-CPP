@@ -51,7 +51,7 @@ int main(void)
 		std::cout << sp.shortestSpan() << std::endl; // 1 (distance between every elem)
 		std::cout << sp.longestSpan() << std::endl;  // 99 (99 - 0)
 	
-		//-----------------------fill fail------------------
+		std::cout << std::endl << "-------Fail Fill------" << std::endl;
 		std::cout << std::endl;
 		std::vector<int> vect(200);
 		for (int i = 0; i < 200; i++) {
