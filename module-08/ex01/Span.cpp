@@ -52,7 +52,7 @@ void Span::fill(std::vector<int>::iterator begin, std::vector<int>::iterator end
 }
 
 int Span::shortestSpan(void) const {
-	if (this->_vect.size() < 3) {
+	if (this->_vect.size() < 2) {
 		throw NotEnoughNumbersException();
 	}
 	std::vector<int> sorted(this->_vect);
@@ -67,7 +67,7 @@ int Span::shortestSpan(void) const {
 }
 
 int Span::longestSpan(void) const {
-	if (this->_vect.size() < 3) {
+	if (this->_vect.size() < 2) {
 		throw NotEnoughNumbersException();
 	}
 	return (*std::max_element(this->_vect.begin(), this->_vect.end()) - *std::min_element(this->_vect.begin(), this->_vect.end()));
