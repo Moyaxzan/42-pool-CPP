@@ -1,6 +1,6 @@
 ####
 
-NAME = easy_find
+NAME = btc
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD -g
 
