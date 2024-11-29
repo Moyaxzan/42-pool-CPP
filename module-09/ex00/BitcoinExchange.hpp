@@ -9,7 +9,6 @@ class BitcoinExchange {
 	public:
 		// CANONICAL FORM
 		BitcoinExchange(void);
-		BitcoinExchange(const char* input_file_name);
 		BitcoinExchange(const BitcoinExchange& other); //TODO
 		BitcoinExchange& operator=(BitcoinExchange& other); //TODO
 		~BitcoinExchange(void);
@@ -38,10 +37,12 @@ class BitcoinExchange {
 		class TooLargeNumber : public std::exception {
 			const char* what(void) const throw();
 		};
+		
+		// MEMBER FUNCTIONS
+		void displayExchange(std::string input);
 
 	private:
 		std::ifstream data_file_;
-		std::ifstream input_file_;
 		std::map<std::string, double> data_;
 
 		int fill_data_(void);
