@@ -19,6 +19,9 @@ class BitcoinExchange {
 		const std::ifstream& getInputIfstream(void) const;
 		void setInputIfstream(const char *input); //TODO
 
+		// DEBUG FUNCTIONS
+		void printData(void) const;
+
 		// EXCEPTIONS
 		class CouldNotOpenFileException : public std::exception {
 			const char* what(void) const throw();
@@ -41,7 +44,8 @@ class BitcoinExchange {
 		std::ifstream input_file_;
 		std::map<std::string, double> data_;
 
-		int fill_data_(void); //TODO
+		int fill_data_(void);
+		bool validDateFormat_(std::string date) const;
 };
 
 #endif
