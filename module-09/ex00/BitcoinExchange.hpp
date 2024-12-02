@@ -47,6 +47,7 @@ class BitcoinExchange {
 
 		int fill_data_(void);
 		bool validDateFormat_(std::string date) const;
+		double strToDbl(std::string str);
 };
 
 #endif

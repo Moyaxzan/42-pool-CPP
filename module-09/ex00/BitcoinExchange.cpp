@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include <cmath>
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
@@ -24,6 +25,19 @@ const std::ifstream& BitcoinExchange::getDataIfstream(void) const {
 	return (this->data_file_);
 }
 
+double BitcoinExchange::strToDbl(std::string str) {
+	char *val_str_end;
+	double res = std::strtod(str.c_str(), &val_str_end);
+	if (*val_str_end != '\0') {
+		throw (ErrorInDataException());
+	} else if (res > 2147483647) {
+		throw (TooLargeNumber());
+	} else if (res < 0) {
+		throw (NotAPositiveNumber());
+	}
+	return (res);
+}
+
 int BitcoinExchange::fill_data_(void) {
 	if (!this->data_file_.is_open()) {
 		throw (CouldNotOpenFileException());
@@ -33,17 +47,16 @@ int BitcoinExchange::fill_data_(void) {
 	if (!std::getline(this->data_file_, date)) {
 		return (1);
 	}
-	char *val_str_end;
 	while (this->data_file_.is_open() && std::getline(this->data_file_, date, ',')) {
 		if (!this->validDateFormat_(date)) {
 			throw (ErrorInDataException());
 		}
 		std::getline(this->data_file_, btc_value);
 		btc_value[btc_value.length()] = '\0';
-		this->data_[date] = std::strtod(btc_value.c_str(), &val_str_end);
-		if (*val_str_end != '\0') {
+		if (!btc_value.length()) {
 			throw (ErrorInDataException());
 		}
+		this->data_[date] = strToDbl(btc_value);
 	}
 	this->printData();
 	return (0);
