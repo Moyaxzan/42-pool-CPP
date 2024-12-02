@@ -31,15 +31,20 @@ int main(int argc, char *argv[]) {
 		input_line = get_file_line(argv[1], input_file);
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
+		return (1);
 	}
 	while (input_line.length() > 0) {
 		try {
 			input_line = get_file_line(argv[1], input_file);
-			// std::cout << std::endl;
-		std::cout << std::endl;
-		} catch (std::exception &e) {
+			// check and display
+			std::cout << std::endl;
+		} catch (BitcoinExchange::CouldNotOpenFileException &e) {
 			std::cerr << e.what() << std::endl;
+			return (1);
+		} catch (std::exception &ex) {
+
 		}
 	}
+	input_file.close();
 	return (0);
 }

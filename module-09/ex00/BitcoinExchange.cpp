@@ -1,8 +1,10 @@
 #include "BitcoinExchange.hpp"
+#include <algorithm>
 #include <cmath>
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
+#include <iterator>
 #include <string>
 #include <iostream>
 
@@ -103,12 +105,30 @@ void BitcoinExchange::printData(void) const {
 	}
 }
 
-// -------------- Exceptions -------------------
+void removeWhitspaces(std::string &str) {
+	str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
+}
 
+void displayExchange(std::string input) {
+	removeWhitspaces(input);
+	std::string::size_type sep_position = input.find('|');
+	if (sep_position == std::string::npos) {
+		// throw error in input
+	}
+	// check separator
+	// check date
+	// check value
+	// show exchange : "2011-01-03 => 3 = 0.9"
+	//
+	// Errors :
+	// Error: not a positive number.
+	// Error: bad input => 2001-42-42 (line content)
+	// Error: too large a number.
+}
+// -------------- Exceptions -------------------
 const char* BitcoinExchange::CouldNotOpenFileException::what(void) const throw() {
 	return ("Error: could not open file.");
 }
-
 const char* BitcoinExchange::ErrorInDataException::what(void) const throw() {
 	return ("Error: error in data.csv file");
 }

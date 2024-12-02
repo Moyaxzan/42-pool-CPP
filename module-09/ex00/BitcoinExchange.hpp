@@ -23,7 +23,8 @@ class BitcoinExchange {
 
 		// EXCEPTIONS
 		class CouldNotOpenFileException : public std::exception {
-			const char* what(void) const throw();
+			public:
+				const char* what(void) const throw();
 		};
 
 		class ErrorInDataException : public std::exception {
@@ -39,7 +40,7 @@ class BitcoinExchange {
 		};
 		
 		// MEMBER FUNCTIONS
-		void displayExchange(std::string input);
+		void displayExchange(std::string input); // TODO
 
 	private:
 		std::ifstream data_file_;
