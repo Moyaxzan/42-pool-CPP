@@ -17,13 +17,14 @@ std::string get_file_line(const char* file_name, std::ifstream &input_file) {
 }
 
 int main(int argc, char *argv[]) {
+	BitcoinExchange btc; // throwing error ???
 	try {
 		if (argc < 2) {
 			throw (BitcoinExchange::CouldNotOpenFileException());
 		}
-		BitcoinExchange btc;
 	} catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
+		return (1);
 	}
 	std::ifstream input_file;
 	std::string input_line;
@@ -36,13 +37,15 @@ int main(int argc, char *argv[]) {
 	while (input_line.length() > 0) {
 		try {
 			input_line = get_file_line(argv[1], input_file);
-			// check and display
-			std::cout << std::endl;
+			if (input_line.length() <= 0) {
+				break;
+			}
+			btc.displayExchange(input_line);
 		} catch (BitcoinExchange::CouldNotOpenFileException &e) {
 			std::cerr << e.what() << std::endl;
 			return (1);
 		} catch (std::exception &ex) {
-
+			std::cerr << ex.what() << std::endl;
 		}
 	}
 	input_file.close();

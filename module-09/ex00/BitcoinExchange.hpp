@@ -31,6 +31,11 @@ class BitcoinExchange {
 			const char* what(void) const throw();
 		};
 
+		class ErrorInInputException : public std::exception {
+			public:
+				const char* what(void) const throw();
+		};
+
 		class NotAPositiveNumber : public std::exception {
 			const char* what(void) const throw();
 		};

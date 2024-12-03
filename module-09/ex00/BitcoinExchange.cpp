@@ -4,6 +4,7 @@
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
+#include <exception>
 #include <iterator>
 #include <string>
 #include <iostream>
@@ -60,7 +61,6 @@ int BitcoinExchange::fill_data_(void) {
 		}
 		this->data_[date] = strToDbl(btc_value);
 	}
-	this->printData();
 	return (0);
 }
 
@@ -109,21 +109,45 @@ void removeWhitspaces(std::string &str) {
 	str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
 }
 
-void displayExchange(std::string input) {
-	removeWhitspaces(input);
-	std::string::size_type sep_position = input.find('|');
-	if (sep_position == std::string::npos) {
-		// throw error in input
+void BitcoinExchange::displayExchange(std::string input) {
+	std::string date;
+	double value;
+	try {
+
+		removeWhitspaces(input);
+		std::string::size_type sep_position = input.find('|');
+		if (sep_position == std::string::npos) {
+			// throw error in input
+			throw (ErrorInInputException());		
+		}
+		// check date
+		date = input.substr(0, sep_position);
+		validDateFormat_(date);
+		// check value
+		value = strToDbl(input.substr(sep_position + 1));
+	} catch (BitcoinExchange::ErrorInInputException &inputEx) {
+		std::cerr << inputEx.what() << input << std::endl; // check if std::endl is needed
+		return ;
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+		return ;
 	}
-	// check separator
-	// check date
-	// check value
-	// show exchange : "2011-01-03 => 3 = 0.9"
-	//
-	// Errors :
-	// Error: not a positive number.
-	// Error: bad input => 2001-42-42 (line content)
-	// Error: too large a number.
+	float res;
+	std::map<std::string, double>::iterator it;
+	for (it = this->data_.begin(); it != this->data_.end(); it++) {
+		if (it->first == date) {
+			break; // found exact value at exact date
+		} else if (it->first > date) {
+			it--;
+			break; // Found the lower bound
+		}
+	}
+	// get lower bound value
+	res = it->second;
+	// multiply lower bound value to input val
+	res *= value;
+	// display 2011-01-03 => 3 = 0.9
+	std::cout << date << " => " << value << " = " << res << std::endl;
 }
 // -------------- Exceptions -------------------
 const char* BitcoinExchange::CouldNotOpenFileException::what(void) const throw() {
@@ -139,4 +163,8 @@ const char* BitcoinExchange::NotAPositiveNumber::what(void) const throw() {
 
 const char* BitcoinExchange::TooLargeNumber::what(void) const throw() {
 	return ("Error: too large a number.");
+}
+
+const char* BitcoinExchange::ErrorInInputException::what(void) const throw() {
+	return ("Error: bad input => ");
 }
