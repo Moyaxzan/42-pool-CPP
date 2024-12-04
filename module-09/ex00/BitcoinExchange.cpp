@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <exception>
+#include <fstream>
 #include <iterator>
 #include <string>
 #include <iostream>
@@ -16,6 +17,21 @@ BitcoinExchange::BitcoinExchange(void) {
 		throw (CouldNotOpenFileException());
 	}
 	fill_data_();
+}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& other) {
+	this->data_ = other.data_;
+}
+
+BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange& other) {
+	if (this != &other) {
+		this->data_ = other.data_;
+		if (this->data_file_.is_open()) {
+			this->data_file_.close();
+			this->data_file_.open("data.csv", std::ios::in);
+		}
+	}
+	return (*this);
 }
 
 BitcoinExchange::~BitcoinExchange(void) {
@@ -31,7 +47,7 @@ const std::ifstream& BitcoinExchange::getDataIfstream(void) const {
 double BitcoinExchange::strToDbl(std::string str) {
 	char *val_str_end;
 	double res = std::strtod(str.c_str(), &val_str_end);
-	if (*val_str_end != '\0') {
+	if (*val_str_end != '\0' || val_str_end == str.c_str()) {
 		throw (ErrorInDataException());
 	} else if (res > 2147483647) {
 		throw (TooLargeNumber());
@@ -112,21 +128,27 @@ void removeWhitspaces(std::string &str) {
 void BitcoinExchange::displayExchange(std::string input) {
 	std::string date;
 	double value;
+	std::string clean_input = input;
 	try {
 
-		removeWhitspaces(input);
-		std::string::size_type sep_position = input.find('|');
+		removeWhitspaces(clean_input);
+		std::string::size_type sep_position = clean_input.find('|');
 		if (sep_position == std::string::npos) {
 			// throw error in input
 			throw (ErrorInInputException());		
 		}
 		// check date
-		date = input.substr(0, sep_position);
-		validDateFormat_(date);
+		date = clean_input.substr(0, sep_position);
+		if (!validDateFormat_(date)) {
+			throw (ErrorInDataException());
+		}
 		// check value
-		value = strToDbl(input.substr(sep_position + 1));
+		value = strToDbl(clean_input.substr(sep_position + 1));
+	} catch (BitcoinExchange::ErrorInDataException &dataEx) {
+		std::cerr << "Error: bad input => " << input << std::endl; // check if std::endl is needed
+		return ;
 	} catch (BitcoinExchange::ErrorInInputException &inputEx) {
-		std::cerr << inputEx.what() << input << std::endl; // check if std::endl is needed
+		std::cerr << "Error: bad input => " << input << std::endl; // check if std::endl is needed
 		return ;
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;

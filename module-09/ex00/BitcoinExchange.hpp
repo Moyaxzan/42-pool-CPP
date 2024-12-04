@@ -9,14 +9,12 @@ class BitcoinExchange {
 	public:
 		// CANONICAL FORM
 		BitcoinExchange(void);
-		BitcoinExchange(const BitcoinExchange& other); //TODO
-		BitcoinExchange& operator=(BitcoinExchange& other); //TODO
+		BitcoinExchange(const BitcoinExchange& other);
+		BitcoinExchange& operator=(BitcoinExchange& other);
 		~BitcoinExchange(void);
 
 		// GETTERS / SETTERS
 		const std::ifstream& getDataIfstream(void) const;
-		const std::ifstream& getInputIfstream(void) const;
-		void setInputIfstream(const char *input); //TODO
 
 		// DEBUG FUNCTIONS
 		void printData(void) const;
@@ -45,7 +43,7 @@ class BitcoinExchange {
 		};
 		
 		// MEMBER FUNCTIONS
-		void displayExchange(std::string input); // TODO
+		void displayExchange(std::string input);
 
 	private:
 		std::ifstream data_file_;
