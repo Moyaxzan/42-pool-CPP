@@ -6,7 +6,7 @@
 /*   By: tsaint-p <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:56:00 by tsaint-p          #+#    #+#             */
-/*   Updated: 2024/12/04 15:14:41 by tsaint-p         ###   ########.fr       */
+/*   Updated: 2024/12/04 22:44:18 by taospa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <sys/time.h>
 
 std::vector<int> get_vect(int argc, char *argv[]) {
 	std::vector<int> res;
@@ -51,6 +52,18 @@ int main(int argc, char *argv[]) {
 		std::vector<int> base_vect = get_vect(argc, argv);
 		std::cout << "Before: " << base_vect << std::endl;
 		timeval start, end;
+		gettimeofday(&start, NULL);
+		base_vect = PmergeMe::vectMergeInsert(base_vect);
+		gettimeofday(&end, NULL);
+		std::cout << "After: " << base_vect << std::endl;
+		std::cout << "Time to process a range of " << base_vect.size();
+		std::cout << " elements with std::vect : "<< end.tv_usec - start.tv_usec << " us" << std::endl;
+		// init deque
+		gettimeofday(&start, NULL);
+		// sort deque
+		gettimeofday(&end, NULL);
+		std::cout << "Time to process a range of " << base_vect.size();
+		std::cout << " elements with std::deque : "<< end.tv_usec - start.tv_usec << " us" << std::endl;
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
 	}
