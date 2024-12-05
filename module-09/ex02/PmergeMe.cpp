@@ -14,6 +14,8 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 
 PmergeMe::~PmergeMe(void) {}
 
+// --------------------------------- VECTOR SORT --------------------------------------
+
 std::vector<int> PmergeMe::vectMergeInsert(std::vector<int> vect) {
 	if (vect.size() == 1) { // stop condition
 		return (vect);
@@ -74,28 +76,79 @@ void PmergeMe::vectDividePairs_(
 			break;
 		}
 		int second = *it;
-		largerGroup.push_back(max_(first, second));
-		smallerGroup.push_back(min_(first, second));
+		largerGroup.push_back(std::max(first, second));
+		smallerGroup.push_back(std::min(first, second));
 	}
 }
 
-int PmergeMe::max_(int a, int b) {
-	if (a > b) {
-		return (a);
+// --------------------------------- DEQUE SORT --------------------------------------
+
+std::deque<int> PmergeMe::dequeMergeInsert(std::deque<int> deq) {
+	if (deq.size() == 1) { // stop condition
+		return (deq);
 	}
-	return (b);
+	std::deque<int> res;
+	if (deq.size() == 2) {
+		if (deq[0] <= deq[1]) {
+			res = deq;
+		} else {
+			res.push_back(deq[1]);
+			res.push_back(deq[0]);
+		}
+		return (res);
+	}
+	std::deque<int> largerGroup;
+	std::deque<int> smallerGroup;
+	dequeDividePairs_(deq, largerGroup, smallerGroup);
+	res = PmergeMe::dequeMergeInsert(largerGroup); // recursive call
+	PmergeMe::dequeInsertionSort_(res, smallerGroup);
+	return (res);
 }
 
-int PmergeMe::min_(int a, int b) {
-	if (a < b) {
-		return (a);
+void PmergeMe::dequeInsertionSort_(std::deque<int> &sortedDeque, std::deque<int> otherDeque) {
+	for (std::deque<int>::iterator it = otherDeque.begin(); it != otherDeque.end(); it++) { 
+		std::deque<int>::iterator pos = sortedDeque.begin() + dequeBinarySearch_(sortedDeque, *it, 0, sortedDeque.size() - 1);
+		sortedDeque.insert(pos, *it);
 	}
-	return (b);
 }
 
-// std::vector<int> PmergeMe::dequeMergeInsert(std::vector<int> vect) {
-//
-// }
+int PmergeMe::dequeBinarySearch_(std::deque<int> deque, int value, int lowBound, int upBound) {
+	// stop condition
+	if (lowBound >= upBound) {
+		if (value > deque[lowBound]) {
+			return (lowBound + 1);
+		}
+		return (lowBound);
+	}
+	int middle = (lowBound + upBound) / 2;
+	if (value == deque[middle]) {
+		return (middle + 1);
+	}
+	if (value > deque[middle]) {
+		return (PmergeMe::dequeBinarySearch_(deque, value, middle + 1, upBound)); // recursive call
+	}
+	return (PmergeMe::dequeBinarySearch_(deque, value, lowBound, middle - 1)); // recursive call
+}
+
+void PmergeMe::dequeDividePairs_(
+	std::deque<int>& baseDeq,
+	std::deque<int>& largerGroup,
+	std::deque<int>& smallerGroup
+) {
+	for (std::deque<int>::iterator it = baseDeq.begin(); it != baseDeq.end(); it++) {
+		int first = *it;
+		it++;
+		if (it == baseDeq.end()) {
+			smallerGroup.push_back(first);
+			break;
+		}
+		int second = *it;
+		largerGroup.push_back(std::max(first, second));
+		smallerGroup.push_back(std::min(first, second));
+	}
+}
+
+// ------------------------------ EXCEPTIONS ----------------------------------------
 
 const char * InvalidInputException::what(void) const throw() {
 	return ("Error");

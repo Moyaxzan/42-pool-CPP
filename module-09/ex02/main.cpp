@@ -6,13 +6,14 @@
 /*   By: tsaint-p <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:56:00 by tsaint-p          #+#    #+#             */
-/*   Updated: 2024/12/04 22:44:18 by taospa           ###   ########.fr       */
+/*   Updated: 2024/12/05 13:57:48 by taospa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 #include <bits/types/struct_timeval.h>
 #include <cctype>
+#include <deque>
 #include <exception>
 #include <iostream>
 #include <sstream>
@@ -40,8 +41,29 @@ std::vector<int> get_vect(int argc, char *argv[]) {
 	return (res);
 }
 
+std::deque<int> get_deque(int argc, char* argv[]) {
+	std::deque<int> res;
+	int val;
+	for (int i = 1; i < argc; i++) {
+		std::string str(argv[i]);
+		std::istringstream iss(str);
+		iss >> val;
+		res.push_back(val);
+	}
+	return (res);
+}
+
+// print vect
 std::ostream& operator<<(std::ostream& os, const std::vector<int>& vect) {
 	for (std::vector<int>::const_iterator it = vect.begin(); it != vect.end(); it++) {
+		std::cout << *it << " ";
+	}
+	return (os);
+}
+
+// print deque
+std::ostream& operator<<(std::ostream& os, const std::deque<int>& deq) {
+	for (std::deque<int>::const_iterator it = deq.begin(); it != deq.end(); it++) {
 		std::cout << *it << " ";
 	}
 	return (os);
@@ -58,9 +80,9 @@ int main(int argc, char *argv[]) {
 		std::cout << "After: " << base_vect << std::endl;
 		std::cout << "Time to process a range of " << base_vect.size();
 		std::cout << " elements with std::vect : "<< end.tv_usec - start.tv_usec << " us" << std::endl;
-		// init deque
+		std::deque<int> base_deque = get_deque(argc, argv);
 		gettimeofday(&start, NULL);
-		// sort deque
+		PmergeMe::dequeMergeInsert(base_deque);
 		gettimeofday(&end, NULL);
 		std::cout << "Time to process a range of " << base_vect.size();
 		std::cout << " elements with std::deque : "<< end.tv_usec - start.tv_usec << " us" << std::endl;
