@@ -1,155 +1,102 @@
 #include "PmergeMe.hpp"
-#include <vector>
+#include <algorithm>
+#include <cstddef>
+#include <iterator>
+#include <cstring>
 
-PmergeMe::PmergeMe(void) {}
 
-PmergeMe::PmergeMe(const PmergeMe& other) {
-	(void) other;
+template<typename Iterator>
+typename PmergeMe<Iterator>::difference_type operator-(	const PmergeMe<Iterator>& lhs,
+														const PmergeMe<Iterator>& rhs) {
+	return (lhs.base() - rhs.base()) / lhs.size();
 }
 
-PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
-	(void) other;
-	return (*this);
+template<typename Iterator>
+PmergeMe<Iterator> make_PmergeMe(Iterator it, size_t size) {
+	return PmergeMe<Iterator>(it, size);
 }
 
-PmergeMe::~PmergeMe(void) {}
+template<typename Iterator>
+PmergeMe<Iterator> make_PmergeMe(PmergeMe<Iterator> it, size_t size) {
+	return PmergeMe<Iterator>(it.getBase(), size * it.getSize());
+}
 
-// --------------------------------- VECTOR SORT --------------------------------------
+template<typename Iterator>
+void my_iter_swap(PmergeMe<Iterator> lhs, PmergeMe<Iterator> rhs) {
+	size_t size = lhs.getSize();
+    unsigned char temp[size];
+    memcpy(temp, lhs, size);
+    memcpy(lhs, rhs, size);
+    memcpy(rhs, temp, size);
+}
 
-std::vector<int> PmergeMe::vectMergeInsert(std::vector<int> vect) {
-	if (vect.size() == 1) { // stop condition
-		return (vect);
+template<typename RandomAccessIterator>
+void mergeInsertionSort(RandomAccessIterator first, RandomAccessIterator last) {
+	static const unsigned long long jacobsthal_diff[] = {
+		2, 2, 6, 10, 22, 42, 86, 170, 342, 682, 1366,
+		2730, 5462, 10922, 21846, 43690, 87382, 174762, 349526, 699050,
+		1398102, 2796202, 5592406, 11184810, 22369622, 44739242, 89478486,
+		178956970, 357913942, 715827882, 1431655766, 2863311530, 5726623062,
+		11453246122, 22906492246, 45812984490, 91625968982, 183251937962,
+		366503875926, 733007751850, 1466015503702, 2932031007402, 5864062014806,
+		11728124029610, 23456248059222, 46912496118442, 93824992236886, 187649984473770,
+		375299968947542, 750599937895082, 1501199875790165, 3002399751580331,
+		6004799503160661, 12009599006321322, 24019198012642644, 48038396025285288,
+		96076792050570576, 192153584101141152, 384307168202282304, 768614336404564608,
+		1537228672809129216ULL, 3074457345618258432ULL, 6148914691236516864ULL
+	};
+
+	size_t size = std::distance(first, last);
+	if (size < 2) {
+		return ;
 	}
-	std::vector<int> res;
-	if (vect.size() == 2) {
-		if (vect[0] <= vect[1]) {
-			res = vect;
-		} else {
-			res.push_back(vect[1]);
-			res.push_back(vect[0]);
+	bool isEven = !(size % 2);
+	RandomAccessIterator end = last;
+	if (!isEven) {
+		end--;
+	}
+
+	// forming pairs + sorting couples
+	for (RandomAccessIterator it = first; it != end; it += 2) {
+		if (it[1] < it[0]) {
+			my_iter_swap(it, it + 1);
 		}
-		return (res);
 	}
-	std::vector<int> largerGroup;
-	std::vector<int> smallerGroup;
-	vectDividePairs_(vect, largerGroup, smallerGroup);
-	res = PmergeMe::vectMergeInsert(largerGroup); // recursive call
-	PmergeMe::vectInsertionSort_(res, smallerGroup);
-	return (res);
-}
+	
+	// recursive call with pairs
+	mergeInsertionSort(make_PmergeMe(first, 2), make_PmergeMe(end, 2));
 
-void PmergeMe::vectInsertionSort_(std::vector<int> &sortedVect, std::vector<int> otherVect) {
-	for (std::vector<int>::iterator it = otherVect.begin(); it != otherVect.end(); it++) { 
-		std::vector<int>::iterator pos = sortedVect.begin() + vectBinarySearch_(sortedVect, *it, 0, sortedVect.size() - 1);
-		sortedVect.insert(pos, *it);
-	}
-}
+	// adding the 2 firsts values to mainchain
+	std::list<RandomAccessIterator> mainChain;
+	mainChain.push_back(first);
+	mainChain.push_back(first + 1);
 
-int PmergeMe::vectBinarySearch_(std::vector<int> vect, int value, int lowBound, int upBound) {
-	// stop condition
-	if (lowBound >= upBound) {
-		if (value > vect[lowBound]) {
-			return (lowBound + 1);
-		}
-		return (lowBound);
+	std::vector<typename std::list<RandomAccessIterator>::iterator> pending;
+	// add small values to pending
+	for (RandomAccessIterator it = first + 2; it != end; it += 2) {
+		pending.push_back(mainChain.insert(mainChain.end(), it + 1));
 	}
-	int middle = (lowBound + upBound) / 2;
-	if (value == vect[middle]) {
-		return (middle + 1);
+	if (!isEven) {
+		pending.push_back(mainChain.end());
 	}
-	if (value > vect[middle]) {
-		return (PmergeMe::vectBinarySearch_(vect, value, middle + 1, upBound)); // recursive call
-	}
-	return (PmergeMe::vectBinarySearch_(vect, value, lowBound, middle - 1)); // recursive call
-}
 
-void PmergeMe::vectDividePairs_(
-	std::vector<int>& baseVect,
-	std::vector<int>& largerGroup,
-	std::vector<int>& smallerGroup
-) {
-	for (std::vector<int>::iterator it = baseVect.begin(); it != baseVect.end(); it++) {
-		int first = *it;
-		it++;
-		if (it == baseVect.end()) {
-			smallerGroup.push_back(first);
+
+	//binary insertion
+	RandomAccessIterator curr_it = first + 2;
+	RandomAccessIterator curr_pend_it = pending.begin();
+	RandomAccessIterator pend_it;
+	RandomAccessIterator it;
+	for (int k = 0; ; k++) {
+		size_t dist = jacobsthal_diff[k];
+		if (dist > static_cast<size_t>(std::distance(curr_pend_it, pending.end()))) {
 			break;
 		}
-		int second = *it;
-		largerGroup.push_back(std::max(first, second));
-		smallerGroup.push_back(std::min(first, second));
+		it = curr_it + dist * 2;
+		pend_it = curr_pend_it + dist;
 	}
-}
-
-// --------------------------------- DEQUE SORT --------------------------------------
-
-std::deque<int> PmergeMe::dequeMergeInsert(std::deque<int> deq) {
-	if (deq.size() == 1) { // stop condition
-		return (deq);
-	}
-	std::deque<int> res;
-	if (deq.size() == 2) {
-		if (deq[0] <= deq[1]) {
-			res = deq;
-		} else {
-			res.push_back(deq[1]);
-			res.push_back(deq[0]);
-		}
-		return (res);
-	}
-	std::deque<int> largerGroup;
-	std::deque<int> smallerGroup;
-	dequeDividePairs_(deq, largerGroup, smallerGroup);
-	res = PmergeMe::dequeMergeInsert(largerGroup); // recursive call
-	PmergeMe::dequeInsertionSort_(res, smallerGroup);
-	return (res);
-}
-
-void PmergeMe::dequeInsertionSort_(std::deque<int> &sortedDeque, std::deque<int> otherDeque) {
-	for (std::deque<int>::iterator it = otherDeque.begin(); it != otherDeque.end(); it++) { 
-		std::deque<int>::iterator pos = sortedDeque.begin() + dequeBinarySearch_(sortedDeque, *it, 0, sortedDeque.size() - 1);
-		sortedDeque.insert(pos, *it);
-	}
-}
-
-int PmergeMe::dequeBinarySearch_(std::deque<int> deque, int value, int lowBound, int upBound) {
-	// stop condition
-	if (lowBound >= upBound) {
-		if (value > deque[lowBound]) {
-			return (lowBound + 1);
-		}
-		return (lowBound);
-	}
-	int middle = (lowBound + upBound) / 2;
-	if (value == deque[middle]) {
-		return (middle + 1);
-	}
-	if (value > deque[middle]) {
-		return (PmergeMe::dequeBinarySearch_(deque, value, middle + 1, upBound)); // recursive call
-	}
-	return (PmergeMe::dequeBinarySearch_(deque, value, lowBound, middle - 1)); // recursive call
-}
-
-void PmergeMe::dequeDividePairs_(
-	std::deque<int>& baseDeq,
-	std::deque<int>& largerGroup,
-	std::deque<int>& smallerGroup
-) {
-	for (std::deque<int>::iterator it = baseDeq.begin(); it != baseDeq.end(); it++) {
-		int first = *it;
-		it++;
-		if (it == baseDeq.end()) {
-			smallerGroup.push_back(first);
-			break;
-		}
-		int second = *it;
-		largerGroup.push_back(std::max(first, second));
-		smallerGroup.push_back(std::min(first, second));
-	}
-}
-
-// ------------------------------ EXCEPTIONS ----------------------------------------
-
-const char * InvalidInputException::what(void) const throw() {
-	return ("Error");
+	do {
+		pend_it -= 1;
+		it  -= 2;
+		std::upper_bound()
+	} while (pend_it != curr_pend_it);
 }

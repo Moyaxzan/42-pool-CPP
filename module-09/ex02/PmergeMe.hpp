@@ -3,35 +3,78 @@
 #include <exception>
 #include <vector>
 #include <deque>
+#include <iterator>
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <list>
 
+template<typename Iterator>
 class PmergeMe {
 	public:
-		static std::vector<int> vectMergeInsert(std::vector<int> vect);
-		static std::deque<int> dequeMergeInsert(std::deque<int> deq);
+		// typedefs for clarity
+		typedef std::random_access_iterator_tag iterator_category;
+		typedef Iterator iterator_type;
+		typedef typename std::iterator_traits<Iterator>::value_type value_type;
+		typedef typename std::iterator_traits<Iterator>::difference_type difference_type;
+		typedef typename std::iterator_traits<Iterator>::pointer pointer;
+		typedef typename std::iterator_traits<Iterator>::reference reference;
+		// constructors and canonical form
+		PmergeMe(void): baseIt_(), size_(0) {}
+		PmergeMe(Iterator it, size_t size): baseIt_(it), size_(size) {}
+		PmergeMe(const PmergeMe& other): baseIt_(other.baseIt_), size_(other.size_) {}
+		PmergeMe& operator=(const PmergeMe& other) {
+			this->size_ = other.size_;
+			this->baseIt_ = other.baseIt_;
+			return (*this);
+		}
+		~PmergeMe(void) {}
+
+		// getters/setters
+		Iterator getBase(void) const { return (this->baseIt_); }
+		size_t getSize(void) const { return (this->size_); }
+
+		// accessors operators 
+		reference operator*(void) const { return (this->baseIt_[this->size_ - 1]); }
+		pointer operator->(void) const { return (&operator*()); }
+		reference operator[](std::size_t pos) { return (this->baseIt_[pos * size_ + size_ - 1]); }
+
+		// operation operators
+		PmergeMe& operator++(void) {
+			this->baseIt_ += this->size_;
+			return (*this);
+		}
+	
+		PmergeMe operator++(int) {
+			PmergeMe tmp = *this;
+			++(*this);
+			return (tmp);
+		}
+
+		PmergeMe& operator--(void) {
+			this->baseIt_ -= this->size_;
+			return (*this);
+		}
+
+		PmergeMe operator--(int) {
+			PmergeMe tmp = *this;
+			--(*this);
+			return (tmp);
+		}
+
+		PmergeMe& operator+=(size_t increment) {
+			this->baseIt_ += increment * this->size_;
+			return (*this);
+		}
+
+		PmergeMe& operator-=(size_t decrement) {
+			this->baseIt_ -= decrement * this->size_;
+			return (*this);
+		}
 
 	private:
-		PmergeMe(void);
-		PmergeMe(const PmergeMe& other);
-		PmergeMe& operator=(const PmergeMe& other);
-		~PmergeMe();
-
-		// vect sort
-		static void vectDividePairs_(
-			std::vector<int>& baseVect,
-			std::vector<int>& largerGroup,
-			std::vector<int>& smallerGroup
-		);
-		static void vectInsertionSort_(std::vector<int>& sortedVect, std::vector<int> otherVect);
-		static int vectBinarySearch_(std::vector<int> vect, int value, int lowBound, int upBound);
-
-		// deque sort
-		static void dequeDividePairs_(
-			std::deque<int>& baseDeque,
-			std::deque<int>& largerGroup,
-			std::deque<int>& smallerGroup
-		);
-		static void dequeInsertionSort_(std::deque<int>& sortedDeque, std::deque<int> otherDeque);
-		static int dequeBinarySearch_(std::deque<int> deq, int value, int lowBound, int upBound);
+		Iterator baseIt_;
+		size_t size_;
 };
 
 class InvalidInputException : public std::exception {
@@ -39,4 +82,6 @@ class InvalidInputException : public std::exception {
 		const char * what(void) const throw();
 };
 
+template<typename RandomAccessIterator>
+void mergeInsertion(RandomAccessIterator first, RandomAccessIterator last);
 #endif
