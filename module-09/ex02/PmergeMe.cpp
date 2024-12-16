@@ -63,14 +63,42 @@ std::vector<int> vectMergeInsert::mergeInsertSort(void) {
 		pendingValue = this->vect_[this->size_ - 1];
 	}
 
+	// sorting pairs with their second values
 	this->pairMerge(pairVect);
 
 	if (DEBUG) {
-		std::cout << "sorted pairs:" << std::endl << "\t";
-		for (std::vector<std::pair<int, int> >::iterator it = pairVect.begin(); it < pairVect.end(); it++) {
+		std::cout << "sorted pairs :" << std::endl << "\t";
+		for (pairvecIt it = pairVect.begin(); it < pairVect.end(); it++) {
 			std::cout << "{" << it->first << ", " << it->second << "} ";
 		}
 		std::cout << std::endl;
+	}
+
+	//adding value smaller than smallest large number to mainChain
+	if (!pairVect.empty()) {
+		mainChain.push_back(pairVect[0].first);
+		mainChain.push_back(pairVect[0].second);
+	}
+	// adding small values to the pending chain && large values to mainChain
+	for (pairvecIt it = pairVect.begin() + 1; it != pairVect.end(); it++) {
+		pendingChain.push_back(it->first);
+		mainChain.push_back(it->second);
+	}
+	// adding pending value to the end of pendingChain
+	if (pendingValue != -1) {
+		pendingChain.push_back(pendingValue);
+	}
+
+	if (DEBUG) {
+		std::cout << "mainChain :" << std::endl << "\t[";
+		for (vecIt it = mainChain.begin(); it != mainChain.end(); it++) {
+			std::cout << *it << ", ";
+		}
+		std::cout << "]\npendingChain :" << std::endl << "\t[";
+		for (vecIt it = pendingChain.begin(); it != pendingChain.end(); it++) {
+			std::cout << *it << ", ";
+		}
+		std::cout << "]" << std::endl;
 	}
 	return (mainChain);
 }
@@ -111,6 +139,15 @@ void vectMergeInsert::pairMerge(std::vector<std::pair<int, int> >& pairVect) {
 	}
 }
 
+void vectMergeInsert::jacobsthalInsertion(
+		std::vector<int>& mainChain,
+		std::vector<int>& pendingChain,
+		std::vector<std::pair<int, int> > pairVect) {
+	std::size_t pendingSize = pendingChain.size();
+	unsigned long jacobsthal[] ={2, 2, 6, 10, 22, 42, 86, 170, 342, 682, 1366, 2730, 5462, 10922, 21846, 43690, 87382};
+
+
+}
 // EXCEPTIONS
 const char* InvalidInputException::what(void) const throw() {
 	return ("Error\n");
