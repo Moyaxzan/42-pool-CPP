@@ -6,7 +6,7 @@
 /*   By: tsaint-p <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:56:00 by tsaint-p          #+#    #+#             */
-/*   Updated: 2024/12/05 13:57:48 by taospa           ###   ########.fr       */
+/*   Updated: 2024/12/16 14:39:52 by tsaint-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,15 @@ int main(int argc, char *argv[]) {
 	try {
 		std::vector<int> base_vect = get_vect(argc, argv);
 		std::cout << "Before: " << base_vect << std::endl;
-		timeval start, end;
-		gettimeofday(&start, NULL);
-		base_vect = PmergeMe::vectMergeInsert(base_vect);
-		gettimeofday(&end, NULL);
-		std::cout << "After: " << base_vect << std::endl;
-		std::cout << "Time to process a range of " << base_vect.size();
-		std::cout << " elements with std::vect : "<< end.tv_usec - start.tv_usec << " us" << std::endl;
-		std::deque<int> base_deque = get_deque(argc, argv);
-		gettimeofday(&start, NULL);
-		PmergeMe::dequeMergeInsert(base_deque);
-		gettimeofday(&end, NULL);
-		std::cout << "Time to process a range of " << base_vect.size();
-		std::cout << " elements with std::deque : "<< end.tv_usec - start.tv_usec << " us" << std::endl;
+		// timeval start, end;
+		// gettimeofday(&start, NULL);
+		// sort vect
+		vectMergeInsert vmi(base_vect);
+		vmi.mergeInsertSort();
+		// gettimeofday(&end, NULL);
+		// std::cout << "After: " << base_vect << std::endl;
+		// std::cout << "Time to process a range of " << base_vect.size();
+		// std::cout << " elements with std::vect : "<< end.tv_usec - start.tv_usec << " us" << std::endl;
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
 	}

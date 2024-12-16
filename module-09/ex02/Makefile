@@ -3,6 +3,7 @@
 NAME = PmergeMe
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD -g -fsanitize=address
+DEBUGFLAGS = -DDEBUG=1
 
 CXX = c++
 
@@ -20,21 +21,26 @@ DEPS = $(OBJS:.o=.d)
 
 ####
 
-$(NAME) 		:	$(OBJS)
+$(NAME) : $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
-all				:	$(NAME)
+debug : CXXFLAGS += $(DEBUGFLAGS)
+debug : clean $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
-$(OBJS_DIR)%.o	:	%.cpp
+all : $(NAME)
+
+$(OBJS_DIR)%.o : %.cpp
 	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
-clean			:
+clean :
 	rm -rf $(OBJS_DIR)
 
-fclean			:	clean
+fclean : clean
 	rm -rf $(NAME)
 
-re				:	fclean all
+re : fclean all
 
-.PHONY			:	all clean fclean re
+.PHONY : all clean fclean re debug
+
