@@ -2,8 +2,8 @@
 
 NAME = PmergeMe
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD -g -fsanitize=address
-DEBUGFLAGS = -DDEBUG=1
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD -O2
+DEBUGFLAGS = -DDEBUG=1 -g -fsanitize=address
 
 CXX = c++
 
