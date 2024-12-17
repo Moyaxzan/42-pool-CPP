@@ -6,7 +6,7 @@
 /*   By: tsaint-p <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:56:00 by tsaint-p          #+#    #+#             */
-/*   Updated: 2024/12/17 16:09:35 by tsaint-p         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:12:23 by tsaint-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 std::vector<int> get_vect(int argc, char *argv[]) {
 	std::vector<int> res;
 	int val;
+	if (argc < 2) {
+		throw (InvalidInputException());
+	}
 	for (int i = 1; i < argc; i++) {
 		std::string str(argv[i]);
 		for (std::string::iterator it = str.begin(); it != str.end(); it++) {
@@ -73,7 +76,8 @@ std::ostream& operator<<(std::ostream& os, const std::deque<int>& deq) {
 
 int main(int argc, char *argv[]) {
 	try {
-		std::vector<int> base_vect = get_vect(argc, argv); // Assumes get_vect is defined elsewhere
+		// ----------------------------------------------------------------- VECTOR
+		std::vector<int> base_vect = get_vect(argc, argv);
 		std::cout << "Before: " << base_vect << std::endl;
 		PmergeMe<std::vector<int> > vmi(base_vect);
 
@@ -87,22 +91,20 @@ int main(int argc, char *argv[]) {
 		std::cout << "After: " << base_vect << std::endl;
 		std::cout << "Time to process a range of " << base_vect.size();
 		std::cout << " elements with std::vect : " << std::setprecision(10) << elapsed_time << " μs.\n\n";
-	} catch (std::exception &e) {
-		std::cerr << e.what() << std::endl;
-	}
-	try {
-		std::deque<int> base_deque = get_deque(argc, argv); // Assumes get_vect is defined elsewhere
-		PmergeMe<std::deque<int> > vmi(base_deque);
 
-		struct timeval start, end;
+		// ----------------------------------------------------------------- DEQUE
+
+		std::deque<int> base_deque = get_deque(argc, argv);
+		PmergeMe<std::deque<int> > vmiDQ(base_deque);
+
 		gettimeofday(&start, NULL);
 
-		base_deque = vmi.mergeInsertSort();
+		base_deque = vmiDQ.mergeInsertSort();
 
 		gettimeofday(&end, NULL);
-		long elapsed_time = (end.tv_sec - start.tv_sec) * 1000000L + (end.tv_usec - start.tv_usec);
+		elapsed_time = (end.tv_sec - start.tv_sec) * 1000000L + (end.tv_usec - start.tv_usec);
 		std::cout << "Time to process a range of " << base_deque.size();
-		std::cout << " elements with std::deque : " << std::setprecision(10) << elapsed_time << " μs.\n\n";
+		std::cout << " elements with std::deque : " << std::setprecision(10) << elapsed_time << " μs.\n";
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
 	}
