@@ -62,7 +62,9 @@ void RPN::applyMult_(void) {
 }
 
 void RPN::applyDivide_(void) {
-	this->stack_.push(this->betterPop_() / this->betterPop_());
+	int r_elem = this->betterPop_();
+	int l_elem = this->betterPop_();
+	this->stack_.push(l_elem / r_elem);
 }
 
 int RPN::betterPop_(void) {
